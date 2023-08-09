@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, generateExcel, generatePdf } = require('../controllers/userController');
+const { register, login, getUsers, getUserById,generateExcel, generatePdf } = require('../controllers/userController');
 const multer = require('multer');
 const userRouter = express.Router();
 
@@ -18,6 +18,10 @@ const upload = multer({ storage : storage });
 userRouter.post("/register", upload.single('image'), register);
 
 userRouter.post("/login",login);
+
+userRouter.get("/",getUsers);
+
+userRouter.get("/:id",getUserById);
 
 userRouter.get("/generateExcel",generateExcel);
 

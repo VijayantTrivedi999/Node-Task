@@ -62,7 +62,16 @@ const login = async (req,res) => {
     }
 }
 
-
+//View all Users
+const getUsers = async(req,res) => {
+    try {
+        const users = await userModel.find();
+        res.json(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json('Failed to fetch Users');
+    }
+}
 
 const generateExcel = async (req,res) => {
     try {
@@ -91,6 +100,22 @@ const generateExcel = async (req,res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json('Something Went Wrong');
+    }
+}
+
+// User by id
+const getUserById = async(req,res) => {
+    try {
+        const user = await userModel.findById(req.params.id);
+        if(!user){
+            res.status(404).json({error:'User not found'});
+        }
+        else{
+            res.json(user);
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json('Failed to fetch Users');
     }
 }
 
@@ -127,4 +152,4 @@ const generatePdf = async (req,res) => {
         res.status(500).json('Something Went Wrong')
     }
 }
-module.exports = { register,login, generateExcel, generatePdf };
+module.exports = { register,login, getUsers,getUserById,generateExcel, generatePdf };
